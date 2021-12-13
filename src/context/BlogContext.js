@@ -1,9 +1,18 @@
 import React, { useReducer } from "react";
+import { ActivityIndicatorComponent } from "react-native";
 import createDataContext from "./createDataContext";
 
 //reducer
 const blogReducer = (state, action) => {
   switch (action.type) {
+    case "edit_blogpost":
+      return state.map((blogPost) => {
+        if (blogPost.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return blogPost;
+        }
+      });
     case "delete_blogpost":
       return state.filter((blogPost) => blogPost.id !== action.payload);
     case "add_blogpost":
@@ -35,12 +44,22 @@ const deleteBlogPost = (dispatch) => {
   };
 };
 
+const editBlogPost = (dispatch) => {
+  return (id, title, content) => {
+    dispatch({
+      type: "edit_blogpost",
+      payload: { id: id, title: title, content: content },
+    });
+  };
+};
+
 //destructure the context and provider
 export const { Context, Provider } = createDataContext(
   blogReducer,
   {
     addBlogPost,
     deleteBlogPost,
+    editBlogPost,
   },
   []
 );
