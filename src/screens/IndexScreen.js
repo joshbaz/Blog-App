@@ -14,7 +14,9 @@ const IndexScreen = ({ navigation }) => {
   const { state, deleteBlogPost } = useContext(Context);
   return (
     <View>
-     
+      <TouchableOpacity onPress={() => navigation.navigate("Create")}>
+        <Feather name="plus" size={30} />
+      </TouchableOpacity>
       <FlatList
         data={state}
         keyExtractor={(blogPost) => blogPost.title}
